@@ -8,6 +8,8 @@ import com.blockchain.practice.customs.CustomErrorResponse;
 import com.blockchain.practice.models.Block;
 import com.blockchain.practice.models.Transaction;
 
+// import org.springframework.stereotype.Component;
+
 public class BlockChainCreator {
  private List<Block> blocks = new ArrayList<>();
 
@@ -17,7 +19,7 @@ public class BlockChainCreator {
 
  private Block genesisBlock() {
   BlockCreator creator = new BlockCreator(
-   UUID.randomUUID(), 1, "00000", 0, new Transaction(null, null, 0)
+   UUID.randomUUID(), 1, "00000", 0, new Transaction(UUID.randomUUID(), UUID.randomUUID(), 0)
   );
   return creator.getBlock();
  }
@@ -29,6 +31,7 @@ public class BlockChainCreator {
   BlockCreator creator = new BlockCreator(
    UUID.randomUUID(), index, previousHash, 0, transaction
   );
+  creator.mineBlock(creator.getBlock(), 3);
   blocks.add(creator.getBlock());
   return creator.getBlock();
  }

@@ -9,10 +9,13 @@ import com.blockchain.practice.models.Transaction;
 import com.blockchain.practice.utils.BlockChainCreator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.stereotype.Component;
 
 public class BlockChainService {
  @Autowired
  private BlockChainCreator creator;
+
+ public BlockChainService() {}
 
  public Block addBlock(Transaction t) {
   try {

@@ -28,7 +28,7 @@ public class BlockCreator {
     timestamp, 
     transaction
    );
-   this.block = this.mineBlock(block, 5);
+   // this.block = this.mineBlock(block, 5);
   } catch (CustomErrorResponse error) {
    throw new CustomErrorResponse(error.getCode(), error.getMessage());
   }
@@ -38,8 +38,8 @@ public class BlockCreator {
   return StringUtils.createHash(input);
  }
 
- private Block mineBlock(Block b, Integer difficulty) {
-  String target = new String(new char[difficulty + 1]).replace("\0", "0");
+ public Block mineBlock(Block b, Integer difficulty) {
+  String target = new String(new char[difficulty]).replace("\0", "0");
   while(!b.getHash().substring(0, difficulty).equals(target)) {
    b.setNonce(b.getNonce() + 1);
    b.setHash(this.createHash(
