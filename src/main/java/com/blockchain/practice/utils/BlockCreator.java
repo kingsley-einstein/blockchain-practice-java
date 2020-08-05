@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.blockchain.practice.customs.CustomErrorResponse;
 import com.blockchain.practice.models.Block;
 import com.blockchain.practice.models.Transaction;
 
@@ -21,28 +22,28 @@ public class BlockCreator {
     index, 
     previousHash,
     this.createHash(
-     id.toString() + Integer.toString(index) + previousHash + Integer.toString(nonce) + transactions.get(0).toString()
+     id.toString() + Integer.toString(index) + previousHash + Integer.toString(nonce) + transactions.toString()
     ), 
     nonce, 
     timestamp, 
     transaction
    );
-   this.block = this.mineBlock(this.block, 5);
-  } catch (Exception ex) {
-   ex.printStackTrace();
+   this.block = this.mineBlock(block, 5);
+  } catch (CustomErrorResponse error) {
+   throw new CustomErrorResponse(error.getCode(), error.getMessage());
   }
  }
 
- private String createHash(String input) throws Exception {
+ private String createHash(String input) {
   return StringUtils.createHash(input);
  }
 
- private Block mineBlock(Block b, Integer difficulty) throws Exception {
+ private Block mineBlock(Block b, Integer difficulty) {
   String target = new String(new char[difficulty + 1]).replace("\0", "0");
   while(!b.getHash().substring(0, difficulty).equals(target)) {
    b.setNonce(b.getNonce() + 1);
    b.setHash(this.createHash(
-    b.getId().toString() + Integer.toString(b.getIndex()) + b.getPreviousHash() + Integer.toString(b.getNonce()) + b.getTransactions().get(0).toString()
+    b.getId().toString() + Integer.toString(b.getIndex()) + b.getPreviousHash() + Integer.toString(b.getNonce()) + b.getTransactions().toString()
    ));
   }
   return b;
